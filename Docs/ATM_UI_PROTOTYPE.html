@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bản vẽ Giao diện Hệ thống Ngân hàng & ATM</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .atm-bezel {
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    }
+    .atm-screen {
+      background: #032b43;
+      border: 4px solid #334155;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .atm-btn-hardware {
+      background: linear-gradient(to bottom, #94a3b8, #64748b);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.4);
+    }
+    .atm-btn-hardware:active {
+      transform: translateY(1px);
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-6">
+
+  <!-- Header -->
+  <div class="max-w-6xl mx-auto mb-6 text-center">
+    <div class="inline-block px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">
+      Đại học Điện Lực • Khoa CNTT • Đồ án Phân tích Thiết kế & Lập trình
+    </div>
+    <h1 class="text-2xl font-bold text-[var(--foreground)]">BẢN VẼ THIẾT KẾ TRỰC QUAN 8 GIAO DIỆN HỆ THỐNG ATM & BANKING</h1>
+    <p class="text-sm text-[var(--muted-foreground)] mt-1">Bấm chọn từng tab bên dưới để xem hình dung chi tiết bố cục (layout) khi kéo thả trên WinForms / JavaFX</p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="max-w-6xl mx-auto mb-6 flex flex-wrap gap-2 justify-center">
+    <button onclick="showScreen(1)" id="tab-1" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium bg-blue-600 text-white transition">3.2.1. Đăng nhập ATM</button>
+    <button onclick="showScreen(2)" id="tab-2" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium bg-[var(--card)] hover:bg-blue-500/10 border border-[var(--border)] transition">3.2.2. Menu Chính & Vấn tin</button>
+    <button onclick="showScreen(3)" id="tab-3" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium bg-[var(--card)] hover:bg-blue-500/10 border border-[var(--border)] transition">3.2.3. Rút tiền mặt</button>
+    <button onclick="showScreen(4)" id="tab-4" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium bg-[var(--card)] hover:bg-blue-500/10 border border-[var(--border)] transition">3.2.4. Chuyển khoản</button>
+    <button onclick="showScreen(5)" id="tab-5" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium bg-[var(--card)] hover:bg-blue-500/10 border border-[var(--border)] transition">3.2.5. Đổi mã PIN</button>
+    <button onclick="showScreen(6)" id="tab-6" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium bg-[var(--card)] hover:bg-blue-500/10 border border-[var(--border)] transition">3.2.6. Lịch sử & Sao kê</button>
+    <button onclick="showScreen(7)" id="tab-7" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium bg-[var(--card)] hover:bg-blue-500/10 border border-[var(--border)] transition">3.2.7. Admin: Quản lý TK</button>
+    <button onclick="showScreen(8)" id="tab-8" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium bg-[var(--card)] hover:bg-blue-500/10 border border-[var(--border)] transition">3.2.8. Server: Giám sát & Stress Test</button>
+  </div>
+
+  <!-- CONTAINER -->
+  <div class="max-w-4xl mx-auto">
+
+    <!-- 1. GIAO DIỆN ĐĂNG NHẬP (3.2.1) -->
+    <div id="screen-1" class="screen-view">
+      <div class="atm-bezel p-6 rounded-3xl border border-slate-700">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-700 mb-4">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+            <span class="text-xs font-mono text-slate-400 ml-2">EPU BANK • ATM TERMINAL #01 (CAU GIAY)</span>
+          </div>
+          <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full font-mono">STATUS: CONNECTED</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <!-- Màn hình cảm ứng ATM -->
+          <div class="md:col-span-8 atm-screen rounded-2xl p-6 text-white min-h-[380px] flex flex-col justify-between shadow-inner">
+            <div class="text-center">
+              <h2 class="text-lg font-bold text-cyan-300 tracking-wide">NGÂN HÀNG ĐIỆN LỰC - EPU BANK</h2>
+              <p class="text-xs text-cyan-100/70 mt-1">VUI LÒNG ĐĂNG NHẬP ĐỂ GIAO DỊCH</p>
+            </div>
+
+            <div class="my-auto space-y-4 max-w-xs mx-auto w-full">
+              <div>
+                <label class="block text-xs font-semibold text-cyan-200 mb-1">SỐ TÀI KHOẢN / MÃ THẺ:</label>
+                <div class="bg-slate-900/80 border-2 border-cyan-500/50 rounded-lg px-3 py-2 text-cyan-300 font-mono text-base tracking-widest text-center shadow">
+                  1001
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-cyan-200 mb-1">MÃ PIN BẢO MẬT (6 SỐ):</label>
+                <div class="bg-slate-900/80 border-2 border-cyan-500/50 rounded-lg px-3 py-2 text-yellow-400 font-mono text-xl tracking-widest text-center shadow">
+                  ••••••
+                </div>
+                <p class="text-[11px] text-amber-300 mt-1 text-center">⚠️ Nhập sai 3 lần thẻ sẽ tự động bị khóa</p>
+              </div>
+
+              <div class="flex gap-2 pt-2">
+                <button class="w-1/2 py-2 bg-emerald-600 hover:bg-emerald-500 font-bold text-xs rounded-lg shadow-md uppercase tracking-wide">Đăng nhập</button>
+                <button class="w-1/2 py-2 bg-red-600/80 hover:bg-red-500 font-bold text-xs rounded-lg shadow-md uppercase tracking-wide">Hủy bỏ</button>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center text-[11px] text-cyan-200/60 border-t border-cyan-900/60 pt-2">
+              <span>Hotline khẩn cấp: 1900 123 456</span>
+              <span>Phiên bản: v2.4 (Socket TCP)</span>
+            </div>
+          </div>
+
+          <!-- Bàn phím số phần cứng ATM (PinPad) -->
+          <div class="md:col-span-4 bg-slate-800/90 rounded-2xl p-4 border border-slate-700 flex flex-col justify-between">
+            <div class="text-center text-xs font-bold text-slate-300 pb-2 border-b border-slate-700 uppercase tracking-wider">
+              BÀN PHÍM SỐ CÂY ATM
+            </div>
+
+            <!-- Keypad Grid -->
+            <div class="grid grid-cols-3 gap-2 my-auto">
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">1</button>
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">2</button>
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">3</button>
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">4</button>
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">5</button>
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">6</button>
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">7</button>
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">8</button>
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">9</button>
+              <button class="h-11 rounded-lg bg-yellow-500 text-slate-950 font-bold text-xs">CLEAR</button>
+              <button class="atm-btn-hardware h-11 rounded-lg text-slate-900 font-bold text-base">0</button>
+              <button class="h-11 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs">ENTER</button>
+            </div>
+
+            <!-- Khay thẻ & tiền -->
+            <div class="mt-4 pt-3 border-t border-slate-700 space-y-2">
+              <div class="h-4 bg-black rounded border border-slate-600 flex items-center justify-center">
+                <span class="text-[9px] text-slate-400 font-mono">=== KHE CẮM THẺ ATM ===</span>
+              </div>
+              <div class="h-5 bg-black rounded border-2 border-dashed border-slate-600 flex items-center justify-center">
+                <span class="text-[9px] text-emerald-400 font-mono">▼ KHAY NHẢ TIỀN MẶT ▼</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-center text-[var(--muted-foreground)] mt-3">👉 <strong>Kéo thả trên WinForms:</strong> Dùng `GroupBox`, `TextBox` (PasswordChar = '*'), 12 `Button` số, và 2 `Button` [Đăng nhập] / [Hủy bỏ].</p>
+    </div>
+
+    <!-- 2. MENU CHÍNH & VẤN TIN (3.2.2) -->
+    <div id="screen-2" class="screen-view hidden">
+      <div class="atm-bezel p-6 rounded-3xl border border-slate-700">
+        <div class="atm-screen rounded-2xl p-6 text-white min-h-[420px] flex flex-col justify-between shadow-inner">
+          
+          <!-- Banner Khách Hàng -->
+          <div class="bg-cyan-950/70 border border-cyan-500/40 rounded-xl p-3 flex justify-between items-center">
+            <div>
+              <p class="text-xs text-cyan-300">XIN CHÀO CHỦ THẺ:</p>
+              <h3 class="text-base font-bold text-white">NGUYỄN VĂN A (STK: 1001)</h3>
+            </div>
+            <div class="text-right">
+              <p class="text-xs text-cyan-300">SỐ DƯ KHẢ DỤNG:</p>
+              <h3 class="text-lg font-mono font-bold text-emerald-400">5.000.000 VNĐ</h3>
+            </div>
+          </div>
+
+          <!-- 6 Nút chức năng lớn 2 bên (Bố cục chuẩn cây ATM) -->
+          <div class="grid grid-cols-2 gap-4 my-6">
+            <button class="bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 p-4 rounded-xl text-left border border-cyan-400/30 shadow-lg flex items-center justify-between">
+              <div>
+                <span class="block text-sm font-bold">1. RÚT TIỀN MẶT</span>
+                <span class="text-[11px] text-cyan-100/70">Nhanh chóng & bảo mật</span>
+              </div>
+              <span class="text-xl">💵</span>
+            </button>
+
+            <button class="bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 p-4 rounded-xl text-right border border-cyan-400/30 shadow-lg flex items-center justify-between flex-row-reverse">
+              <div>
+                <span class="block text-sm font-bold">2. CHUYỂN KHOẢN</span>
+                <span class="text-[11px] text-cyan-100/70">Chuyển tiền 24/7 tức thì</span>
+              </div>
+              <span class="text-xl">💳</span>
+            </button>
+
+            <button class="bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 p-4 rounded-xl text-left border border-cyan-400/30 shadow-lg flex items-center justify-between">
+              <div>
+                <span class="block text-sm font-bold">3. ĐỔI MÃ PIN</span>
+                <span class="text-[11px] text-cyan-100/70">Tăng cường bảo mật</span>
+              </div>
+              <span class="text-xl">🔒</span>
+            </button>
+
+            <button class="bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 p-4 rounded-xl text-right border border-cyan-400/30 shadow-lg flex items-center justify-between flex-row-reverse">
+              <div>
+                <span class="block text-sm font-bold">4. LỊCH SỬ & SAO KÊ</span>
+                <span class="text-[11px] text-cyan-100/70">Xem 5 GD gần nhất</span>
+              </div>
+              <span class="text-xl">📜</span>
+            </button>
+          </div>
+
+          <!-- Bottom Action -->
+          <div class="flex justify-between items-center border-t border-cyan-900/60 pt-3">
+            <span class="text-xs text-cyan-300 font-mono">TRẠM ATM: 01 (CẦU GIẤY)</span>
+            <button class="bg-red-600 hover:bg-red-500 px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider shadow">
+              [5] Đăng xuất / Trả thẻ
+            </button>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-center text-[var(--muted-foreground)] mt-3">👉 <strong>Kéo thả trên WinForms:</strong> Dùng 1 `Panel`, các `Label` hiển thị tên/số dư, 5 `Button` lớn chia đều 2 cột.</p>
+    </div>
+
+    <!-- 3. RÚT TIỀN MẶT (3.2.3) -->
+    <div id="screen-3" class="screen-view hidden">
+      <div class="atm-bezel p-6 rounded-3xl border border-slate-700">
+        <div class="atm-screen rounded-2xl p-6 text-white min-h-[420px] flex flex-col justify-between shadow-inner">
+          <div class="text-center">
+            <h2 class="text-base font-bold text-cyan-300">CHỌN MỆNH GIÁ CẦN RÚT</h2>
+            <p class="text-xs text-cyan-100/70">Số dư hiện tại: <span class="text-emerald-400 font-mono font-bold">5.000.000 VNĐ</span></p>
+          </div>
+
+          <!-- Các nút mệnh giá -->
+          <div class="grid grid-cols-2 gap-4 my-4 max-w-xl mx-auto w-full">
+            <button class="bg-slate-800 hover:bg-cyan-700 border-2 border-cyan-500/50 p-3 rounded-xl font-bold font-mono text-center text-base">
+              100.000 VNĐ
+            </button>
+            <button class="bg-slate-800 hover:bg-cyan-700 border-2 border-cyan-500/50 p-3 rounded-xl font-bold font-mono text-center text-base">
+              200.000 VNĐ
+            </button>
+            <button class="bg-slate-800 hover:bg-cyan-700 border-2 border-cyan-500/50 p-3 rounded-xl font-bold font-mono text-center text-base">
+              500.000 VNĐ
+            </button>
+            <button class="bg-slate-800 hover:bg-cyan-700 border-2 border-cyan-500/50 p-3 rounded-xl font-bold font-mono text-center text-base">
+              1.000.000 VNĐ
+            </button>
+            <button class="bg-slate-800 hover:bg-cyan-700 border-2 border-cyan-500/50 p-3 rounded-xl font-bold font-mono text-center text-base">
+              2.000.000 VNĐ
+            </button>
+            <button class="bg-cyan-700 hover:bg-cyan-600 border-2 border-cyan-300 p-3 rounded-xl font-bold text-center text-sm">
+              NHẬP SỐ KHÁC...
+            </button>
+          </div>
+
+          <!-- Thông tin lock & Quay lại -->
+          <div class="bg-slate-900/60 p-2.5 rounded-lg border border-cyan-800/50 text-[11px] text-cyan-300 text-center">
+            🛡️ <em>Yêu cầu rút tiền được bảo vệ bằng cơ chế Thread Lock trên Server để chống Race Condition.</em>
+          </div>
+
+          <div class="flex justify-between items-center pt-2">
+            <button class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-xs font-bold uppercase">◀ Quay lại Menu</button>
+            <button class="bg-emerald-600 hover:bg-emerald-500 px-6 py-2 rounded-lg text-xs font-bold uppercase">Xác nhận rút</button>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-center text-[var(--muted-foreground)] mt-3">👉 <strong>Kéo thả trên WinForms:</strong> 6 `Button` chọn số tiền, 1 `TextBox` nhập số khác, 2 nút [Xác nhận] / [Quay lại].</p>
+    </div>
+
+    <!-- 4. CHUYỂN KHOẢN (3.2.4) -->
+    <div id="screen-4" class="screen-view hidden">
+      <div class="atm-bezel p-6 rounded-3xl border border-slate-700">
+        <div class="atm-screen rounded-2xl p-6 text-white min-h-[420px] flex flex-col justify-between shadow-inner">
+          <div class="text-center pb-2 border-b border-cyan-900">
+            <h2 class="text-base font-bold text-cyan-300">CHUYỂN KHOẢN LIÊN TÀI KHOẢN (24/7)</h2>
+          </div>
+
+          <div class="max-w-md mx-auto w-full space-y-3 my-auto">
+            <div>
+              <label class="block text-xs font-semibold text-cyan-200 mb-1">SỐ TÀI KHOẢN THỤ HƯỞNG (NGƯỜI NHẬN):</label>
+              <div class="flex gap-2">
+                <div class="flex-1 bg-slate-900 border border-cyan-500 rounded px-3 py-1.5 font-mono text-cyan-300">1002</div>
+                <button class="bg-cyan-600 hover:bg-cyan-500 px-3 py-1.5 rounded text-xs font-bold">Kiểm tra tên</button>
+              </div>
+            </div>
+
+            <!-- Tên tự động load ra -->
+            <div class="bg-emerald-950/60 border border-emerald-500/50 rounded p-2 text-xs">
+              <span class="text-emerald-300">TÊN NGƯỜI NHẬN:</span> 
+              <strong class="text-white ml-2">TRẦN THỊ B</strong>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-cyan-200 mb-1">SỐ TIỀN CẦN CHUYỂN (VNĐ):</label>
+              <div class="bg-slate-900 border border-cyan-500 rounded px-3 py-1.5 font-mono text-emerald-400 font-bold">500.000</div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-cyan-200 mb-1">NỘI DUNG CHUYỂN KHOẢN:</label>
+              <div class="bg-slate-900 border border-cyan-500 rounded px-3 py-1.5 text-xs text-slate-300">Nguyen Van A chuyen tien hoc phi</div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center pt-2">
+            <button class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-xs font-bold uppercase">◀ Hủy bỏ</button>
+            <button class="bg-emerald-600 hover:bg-emerald-500 px-6 py-2 rounded-lg text-xs font-bold uppercase">Xác nhận chuyển tiền</button>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-center text-[var(--muted-foreground)] mt-3">👉 <strong>Kéo thả trên WinForms:</strong> 3 `TextBox` (STK, Số tiền, Nội dung), 1 `Label` hiển thị tên người nhận, 2 nút bấm.</p>
+    </div>
+
+    <!-- 5. ĐỔI MÃ PIN (3.2.5) -->
+    <div id="screen-5" class="screen-view hidden">
+      <div class="atm-bezel p-6 rounded-3xl border border-slate-700">
+        <div class="atm-screen rounded-2xl p-6 text-white min-h-[420px] flex flex-col justify-between shadow-inner">
+          <div class="text-center pb-2 border-b border-cyan-900">
+            <h2 class="text-base font-bold text-cyan-300">THAY ĐỔI MÃ PIN BẢO MẬT</h2>
+          </div>
+
+          <div class="max-w-sm mx-auto w-full space-y-4 my-auto">
+            <div>
+              <label class="block text-xs font-semibold text-cyan-200 mb-1">NHẬP MÃ PIN CŨ:</label>
+              <div class="bg-slate-900 border border-cyan-500 rounded px-3 py-2 text-yellow-400 font-mono text-center tracking-widest">••••••</div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-cyan-200 mb-1">NHẬP MÃ PIN MỚI (6 SỐ):</label>
+              <div class="bg-slate-900 border border-cyan-500 rounded px-3 py-2 text-emerald-400 font-mono text-center tracking-widest">••••••</div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-cyan-200 mb-1">XÁC NHẬN LẠI MÃ PIN MỚI:</label>
+              <div class="bg-slate-900 border border-cyan-500 rounded px-3 py-2 text-emerald-400 font-mono text-center tracking-widest">••••••</div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center pt-2">
+            <button class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-xs font-bold uppercase">◀ Hủy bỏ</button>
+            <button class="bg-emerald-600 hover:bg-emerald-500 px-6 py-2 rounded-lg text-xs font-bold uppercase">Lưu mã PIN mới</button>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-center text-[var(--muted-foreground)] mt-3">👉 <strong>Kéo thả trên WinForms:</strong> 3 `TextBox` (PasswordChar = '*'), 2 `Button` Lưu và Hủy.</p>
+    </div>
+
+    <!-- 6. LỊCH SỬ & SAO KÊ (3.2.6) -->
+    <div id="screen-6" class="screen-view hidden">
+      <div class="atm-bezel p-6 rounded-3xl border border-slate-700">
+        <div class="atm-screen rounded-2xl p-6 text-white min-h-[420px] flex flex-col justify-between shadow-inner">
+          <div class="flex justify-between items-center pb-2 border-b border-cyan-900">
+            <h2 class="text-base font-bold text-cyan-300">LỊCH SỬ 5 GIAO DỊCH GẦN NHẤT</h2>
+            <span class="text-xs text-cyan-200 font-mono">TK: 1001</span>
+          </div>
+
+          <!-- Bảng giao dịch DataGridView -->
+          <div class="my-auto overflow-hidden rounded-lg border border-cyan-500/30">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-cyan-950 text-cyan-200 uppercase font-semibold">
+                <tr>
+                  <th class="p-2.5">Thời gian</th>
+                  <th class="p-2.5">Loại GD</th>
+                  <th class="p-2.5 text-right">Số tiền</th>
+                  <th class="p-2.5">Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-cyan-900/50 bg-slate-900/70 font-mono text-[11px]">
+                <tr>
+                  <td class="p-2 text-slate-300">09/11/2026 21:15</td>
+                  <td class="p-2 text-cyan-400">Rút tiền ATM</td>
+                  <td class="p-2 text-right text-red-400 font-bold">-500.000đ</td>
+                  <td class="p-2 text-emerald-400">Thành công</td>
+                </tr>
+                <tr>
+                  <td class="p-2 text-slate-300">08/11/2026 14:30</td>
+                  <td class="p-2 text-cyan-400">Nhận chuyển khoản</td>
+                  <td class="p-2 text-right text-emerald-400 font-bold">+2.000.000đ</td>
+                  <td class="p-2 text-emerald-400">Thành công</td>
+                </tr>
+                <tr>
+                  <td class="p-2 text-slate-300">05/11/2026 09:10</td>
+                  <td class="p-2 text-cyan-400">Chuyển tiền</td>
+                  <td class="p-2 text-right text-red-400 font-bold">-1.200.000đ</td>
+                  <td class="p-2 text-emerald-400">Thành công</td>
+                </tr>
+                <tr>
+                  <td class="p-2 text-slate-300">01/11/2026 18:00</td>
+                  <td class="p-2 text-cyan-400">Rút tiền ATM</td>
+                  <td class="p-2 text-right text-red-400 font-bold">-1.000.000đ</td>
+                  <td class="p-2 text-emerald-400">Thành công</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="flex justify-between items-center pt-2">
+            <button class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-xs font-bold uppercase">◀ Quay lại</button>
+            <button class="bg-cyan-600 hover:bg-cyan-500 px-5 py-2 rounded-lg text-xs font-bold uppercase flex items-center gap-1.5">
+              <span>🖨️ In sao kê giấy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-center text-[var(--muted-foreground)] mt-3">👉 <strong>Kéo thả trên WinForms:</strong> Dùng 1 `DataGridView` hiển thị bảng dữ liệu từ SQL và 1 nút [In sao kê].</p>
+    </div>
+
+    <!-- 7. ADMIN: QUẢN LÝ TÀI KHOẢN (3.2.7) -->
+    <div id="screen-7" class="screen-view hidden">
+      <div class="bg-[var(--card)] p-5 rounded-2xl border border-[var(--border)] shadow-md">
+        <div class="flex justify-between items-center pb-3 border-b border-[var(--border)] mb-4">
+          <div>
+            <h2 class="text-base font-bold text-[var(--foreground)]">HỆ THỐNG QUẢN TRỊ CORE BANKING - QUẢN LÝ TÀI KHOẢN</h2>
+            <p class="text-xs text-[var(--muted-foreground)]">Dành cho Giao dịch viên & Quản trị viên</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-xs font-semibold">+ Mở tài khoản mới</button>
+            <button class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-semibold">Xuất Excel</button>
+          </div>
+        </div>
+
+        <!-- Bảng danh sách tài khoản WinForms DataGridView -->
+        <div class="overflow-x-auto rounded-lg border border-[var(--border)]">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-800 text-slate-200">
+              <tr>
+                <th class="p-2.5">Số TK</th>
+                <th class="p-2.5">Họ và tên</th>
+                <th class="p-2.5">Số dư</th>
+                <th class="p-2.5">Trạng thái thẻ</th>
+                <th class="p-2.5 text-center">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border)] font-mono text-[11px]">
+              <tr>
+                <td class="p-2 font-bold">1001</td>
+                <td class="p-2 font-sans">Nguyễn Văn A</td>
+                <td class="p-2 text-emerald-500 font-bold">5.000.000đ</td>
+                <td class="p-2"><span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-sans text-[10px]">Hoạt động</span></td>
+                <td class="p-2 text-center">
+                  <button class="px-2 py-1 bg-amber-500 text-slate-950 font-bold rounded text-[10px] font-sans">Khóa thẻ</button>
+                </td>
+              </tr>
+              <tr class="bg-red-500/5">
+                <td class="p-2 font-bold">1002</td>
+                <td class="p-2 font-sans">Trần Thị B</td>
+                <td class="p-2 text-emerald-500 font-bold">10.000.000đ</td>
+                <td class="p-2"><span class="px-2 py-0.5 bg-red-500/20 text-red-400 rounded-full font-sans text-[10px]">ĐÃ KHÓA (Sai 3 lần PIN)</span></td>
+                <td class="p-2 text-center">
+                  <button class="px-2 py-1 bg-emerald-600 text-white font-bold rounded text-[10px] font-sans">Mở khóa thẻ</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="text-xs text-center text-[var(--muted-foreground)] mt-3">👉 <strong>Kéo thả trên WinForms (Server App):</strong> 1 `DataGridView`, các `TextBox` nhập họ tên/STK, nút [Mở khóa thẻ].</p>
+    </div>
+
+    <!-- 8. SERVER: GIÁM SÁT MẠNG LƯỚI & STRESS TEST (3.2.8) -->
+    <div id="screen-8" class="screen-view hidden">
+      <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 text-slate-200 shadow-xl font-mono">
+        <div class="flex justify-between items-center pb-3 border-b border-slate-800 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+            <h2 class="text-sm font-bold text-emerald-400">CORE SERVER CONSOLE & CONCURRENCY MONITOR</h2>
+          </div>
+          <span class="text-xs text-slate-400">PORT: 8888 • ACTIVE CLIENTS: 2</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <!-- Card ATM 1 -->
+          <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+            <div class="flex justify-between text-xs mb-1">
+              <span class="font-bold text-cyan-400">ATM_01 (CẦU GIẤY)</span>
+              <span class="text-emerald-400">● ONLINE</span>
+            </div>
+            <p class="text-[11px] text-slate-400">Quỹ tiền mặt còn:</p>
+            <p class="text-base font-bold text-white">45.000.000đ</p>
+          </div>
+
+          <!-- Card ATM 2 -->
+          <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+            <div class="flex justify-between text-xs mb-1">
+              <span class="font-bold text-cyan-400">ATM_02 (ĐỐNG ĐA)</span>
+              <span class="text-emerald-400">● ONLINE</span>
+            </div>
+            <p class="text-[11px] text-slate-400">Quỹ tiền mặt còn:</p>
+            <p class="text-base font-bold text-amber-400">8.000.000đ (Sắp hết)</p>
+          </div>
+
+          <!-- Action Tiếp quỹ & Stress test -->
+          <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 flex flex-col justify-between">
+            <button class="w-full py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-bold font-sans">
+              + Tiếp quỹ tiền mặt
+            </button>
+            <button class="w-full py-1.5 bg-red-600 hover:bg-red-500 text-white rounded text-xs font-bold font-sans mt-1">
+              ⚡ Chạy Stress Test đa luồng
+            </button>
+          </div>
+        </div>
+
+        <!-- Khung Log Real-time (Ăn điểm Concurrency) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-400 mb-1">REAL-TIME THREAD & CONCURRENCY LOGS:</label>
+          <div class="bg-black/80 rounded-xl p-3 h-48 overflow-y-auto text-xs text-green-400 space-y-1 border border-slate-800">
+            <div>[22:45:01.102] [SERVER] Socket Listener started on port 8888. Waiting for ATM connections...</div>
+            <div>[22:45:04.250] [ATM_01] Client connected from 127.0.0.1:54210. Assigned to Thread #12.</div>
+            <div>[22:45:08.310] [ATM_02] Client connected from 127.0.0.1:54218. Assigned to Thread #15.</div>
+            <div class="text-yellow-400">[22:45:15.001] [CONCURRENCY] ATM_01 and ATM_02 requesting withdrawal for Account [1001] simultaneously!</div>
+            <div class="text-cyan-400">[22:45:15.002] [LOCK] Thread #12 acquired lock for Account [1001]. Withdrawing 1,000,000đ...</div>
+            <div class="text-amber-300">[22:45:15.003] [WAIT] Thread #15 queued. Waiting for lock on Account [1001]...</div>
+            <div class="text-emerald-400">[22:45:15.045] [SUCCESS] Thread #12 completed transaction. New Balance: 4,000,000đ. Released Lock.</div>
+            <div class="text-cyan-400">[22:45:15.046] [LOCK] Thread #15 acquired lock. Checking Balance: 4,000,000đ. Withdrawing 1,000,000đ...</div>
+            <div class="text-emerald-400">[22:45:15.080] [SUCCESS] Thread #15 completed transaction. New Balance: 3,000,000đ. Released Lock.</div>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-center text-[var(--muted-foreground)] mt-3">👉 <strong>Kéo thả trên WinForms (Server App):</strong> 1 `RichTextBox` màu đen chữ xanh lá làm khung Log, các `Button` nạp tiền & chạy test.</p>
+    </div>
+
+  </div>
+
+  <script>
+    function showScreen(num) {
+      document.querySelectorAll('.screen-view').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white');
+        btn.classList.add('bg-[var(--card)]', 'border', 'border-[var(--border)]');
+      });
+
+      const activeScreen = document.getElementById('screen-' + num);
+      if (activeScreen) activeScreen.classList.remove('hidden');
+
+      const activeTab = document.getElementById('tab-' + num);
+      if (activeTab) {
+        activeTab.classList.remove('bg-[var(--card)]', 'border', 'border-[var(--border)]');
+        activeTab.classList.add('bg-blue-600', 'text-white');
+      }
+    }
+  </script>
+</body>
+</html>
