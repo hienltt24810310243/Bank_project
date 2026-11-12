@@ -109,8 +109,14 @@ INSERT INTO KhayTienATM (MaATM, MenhGia, SoLuongTo) VALUES
 ('ATM02', 500000, 150);
 
 INSERT INTO GiaoDich VALUES 
-('GD01', '1001', 'ATM01', N'Rút tiền', 500000, 8000000, GETDATE(), N'Thành công'),
-('GD02', '1002', 'ATM01', N'Chuyển khoản', 1000000, 14200000, GETDATE(), N'Thành công');
+('GD01', '1001', 'ATM01', N'Rút tiền', 500000, 8000000, '2026-11-10 20:22:00', N'Thành công'),
+('GD02', '1002', 'ATM01', N'Chuyển khoản', 1000000, 14200000, '2026-11-10 20:25:00', N'Thành công'),
+('GD03', '1001', 'ATM01', N'Rút tiền', 1000000, 7500000, '2026-11-08 15:30:00', N'Thành công'),
+('GD04', '1001', 'ATM01', N'Rút tiền', 2000000, 8500000, '2026-11-05 10:15:00', N'Thành công'),
+('GD05', '1001', 'ATM01', N'Mở tài khoản EPU', 0, 10500000, '2026-10-28 08:30:00', N'Thành công'),
+('GD06', '1002', 'ATM01', N'Rút tiền', 2000000, 15200000, '2026-11-09 11:20:00', N'Thành công'),
+('GD07', '1002', 'ATM01', N'Mở tài khoản EPU', 0, 17200000, '2026-10-25 09:00:00', N'Thành công'),
+('GD08', '1003', 'ATM01', N'Rút tiền', 50000, 250000, '2026-11-01 16:45:00', N'Thành công');
 
 INSERT INTO ChiTietChuyenKhoan VALUES 
 ('GD02', '1001', N'Chuyen tien hoc phi');
