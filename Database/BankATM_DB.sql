@@ -99,14 +99,16 @@ INSERT INTO TheATM VALUES
 
 INSERT INTO MayATM VALUES 
 ('ATM01', N'ATM ĐH Điện Lực (EPU)', N'235 Hoàng Quốc Việt, Cầu Giấy, Hà Nội', 90000000, N'Online'),
-('ATM02', N'ATM Chi nhánh Đống Đa', N'100 Tây Sơn, Đống Đa, Hà Nội', 75000000, N'Online');
+('ATM02', N'ATM Chi nhánh Đống Đa', N'100 Tây Sơn, Đống Đa, Hà Nội', 75000000, N'Online'),
+('ATM03', N'ATM Chi nhánh Hà Đông', N'10 Trần Phú, Hà Đông, Hà Nội', 50000000, N'Offline');
 
 INSERT INTO KhayTienATM (MaATM, MenhGia, SoLuongTo) VALUES 
 ('ATM01', 500000, 100),
 ('ATM01', 200000, 100),
 ('ATM01', 100000, 150),
 ('ATM01', 50000,  100),
-('ATM02', 500000, 150);
+('ATM02', 500000, 150),
+('ATM03', 500000, 100);
 
 INSERT INTO GiaoDich VALUES 
 ('GD01', '1001', 'ATM01', N'Rút tiền', 500000, 8000000, '2026-11-10 20:22:00', N'Thành công'),

@@ -16,6 +16,12 @@ namespace Bank.Client.Screens
     /// </summary>
     public static class AtmSession
     {
+        // Định danh cây ATM trong mạng lưới phân tán
+        public static string CurrentAtmId { get; set; } = "ATM01";
+        public static string CurrentAtmName { get; set; } = "ATM ĐH Điện Lực (EPU)";
+        public static string CurrentAtmLocation { get; set; } = "235 Hoàng Quốc Việt, Cầu Giấy, Hà Nội";
+        public static bool IsMaintenance { get; set; } = false;
+
         public static string CurrentCard { get; set; } = "9704000000001001";
         public static string CurrentAccount { get; set; } = "1001";
         public static string CurrentName { get; set; } = "NGUYỄN VĂN AN";

@@ -96,8 +96,8 @@ namespace Bank.Client.Screens
             lblWarning.ForeColor = Color.FromArgb(250, 204, 21);
             Application.DoEvents();
 
-            // Gửi lệnh Socket TCP lên Server
-            string response = AtmClientSocket.SendCommand($"LOGIN|{soThe}|{pin}");
+            // Gửi lệnh Socket TCP lên Server kèm mã trạm ATM
+            string response = AtmClientSocket.SendCommand($"LOGIN|{soThe}|{pin}|{AtmSession.CurrentAtmId}");
             string[] parts = response.Split('|');
 
             if (parts[0] == "LOGIN_SUCCESS")

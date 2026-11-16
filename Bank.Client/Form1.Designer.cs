@@ -40,6 +40,7 @@
             this.btnKey1 = new System.Windows.Forms.Button();
             this.lblKeypadHeader = new System.Windows.Forms.Label();
             this.pnlKioskHeader = new System.Windows.Forms.Panel();
+            this.cboAtmTerminal = new System.Windows.Forms.ComboBox();
             this.lblStatusBadge = new System.Windows.Forms.Label();
             this.txtServerPort = new System.Windows.Forms.TextBox();
             this.txtServerIp = new System.Windows.Forms.TextBox();
@@ -371,6 +372,7 @@
             // 
             // pnlKioskHeader
             // 
+            this.pnlKioskHeader.Controls.Add(this.cboAtmTerminal);
             this.pnlKioskHeader.Controls.Add(this.lblStatusBadge);
             this.pnlKioskHeader.Controls.Add(this.txtServerPort);
             this.pnlKioskHeader.Controls.Add(this.txtServerIp);
@@ -427,6 +429,23 @@
             this.txtServerIp.Text = "127.0.0.1";
             this.txtServerIp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // cboAtmTerminal
+            // 
+            this.cboAtmTerminal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(41)))), ((int)(((byte)(59)))));
+            this.cboAtmTerminal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAtmTerminal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboAtmTerminal.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.cboAtmTerminal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(232)))), ((int)(((byte)(249)))));
+            this.cboAtmTerminal.FormattingEnabled = true;
+            this.cboAtmTerminal.Items.AddRange(new object[] {
+            "ATM01 - Cầu Giấy (EPU)",
+            "ATM02 - Đống Đa",
+            "ATM03 - Hà Đông"});
+            this.cboAtmTerminal.Location = new System.Drawing.Point(65, 6);
+            this.cboAtmTerminal.Name = "cboAtmTerminal";
+            this.cboAtmTerminal.Size = new System.Drawing.Size(200, 23);
+            this.cboAtmTerminal.TabIndex = 8;
+            // 
             // lblServerConfig
             // 
             this.lblServerConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -442,13 +461,13 @@
             // lblKioskTitle
             // 
             this.lblKioskTitle.AutoSize = true;
-            this.lblKioskTitle.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblKioskTitle.Font = new System.Drawing.Font("Consolas", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblKioskTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(163)))), ((int)(((byte)(184)))));
-            this.lblKioskTitle.Location = new System.Drawing.Point(65, 9);
+            this.lblKioskTitle.Location = new System.Drawing.Point(275, 10);
             this.lblKioskTitle.Name = "lblKioskTitle";
-            this.lblKioskTitle.Size = new System.Drawing.Size(320, 17);
+            this.lblKioskTitle.Size = new System.Drawing.Size(120, 15);
             this.lblKioskTitle.TabIndex = 3;
-            this.lblKioskTitle.Text = "EPU BANK • ATM TERMINAL #01 (CAU GIAY)";
+            this.lblKioskTitle.Text = "(Kiosk Terminal)";
             // 
             // lblDotGreen
             // 
@@ -506,6 +525,7 @@
         private System.Windows.Forms.Label lblDotRed;
         private System.Windows.Forms.Label lblDotYellow;
         private System.Windows.Forms.Label lblDotGreen;
+        public System.Windows.Forms.ComboBox cboAtmTerminal;
         private System.Windows.Forms.Label lblKioskTitle;
         private System.Windows.Forms.Label lblServerConfig;
         public System.Windows.Forms.TextBox txtServerIp;

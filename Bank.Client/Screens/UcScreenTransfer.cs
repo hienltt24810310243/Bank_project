@@ -119,8 +119,8 @@ namespace Bank.Client.Screens
                 desc = "Chuyen tien ATM";
             }
 
-            // Gửi lệnh Socket TCP lên Server để thực hiện chuyển khoản và cập nhật SQL Server
-            string response = AtmClientSocket.SendCommand($"TRANSFER|{AtmSession.CurrentAccount}|{dest}|{transferAmt}|{desc}");
+            // Gửi lệnh Socket TCP lên Server để thực hiện chuyển khoản và cập nhật SQL Server kèm mã trạm ATM
+            string response = AtmClientSocket.SendCommand($"TRANSFER|{AtmSession.CurrentAccount}|{dest}|{transferAmt}|{desc}|{AtmSession.CurrentAtmId}");
             string[] parts = response.Split('|');
 
             if (parts[0] == "TRANSFER_SUCCESS")

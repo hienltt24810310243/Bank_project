@@ -57,5 +57,36 @@ namespace Bank.Client
                 return $"ERROR|Lỗi kết nối Socket: {ex.Message}";
             }
         }
+
+        /// <summary>
+        /// Gửi gói tin ĐĂNG KÝ cây ATM với Server
+        /// </summary>
+        public static (bool Success, string Status) RegisterAtm(string atmId, string name)
+        {
+            string resp = SendCommand($"REGISTER_ATM|{atmId}|{name}");
+            string[] parts = resp.Split('|');
+            if (parts[0] == "REGISTER_SUCCESS")
+            {
+                string status = parts.Length > 2 ? parts[2] : "Online";
+                return (true, status);
+            }
+            return (false, "Offline");
+        }
+
+        /// <summary>
+        /// Gửi nhịp tim (Heartbeat) định kỳ lên Server
+        /// </summary>
+        public static (bool Connected, bool IsMaintenance) SendHeartbeat(string atmId)
+        {
+            string resp = SendCommand($"HEARTBEAT|{atmId}");
+            string[] parts = resp.Split('|');
+
+            if (parts[0] == "HEARTBEAT_ACK")
+            {
+                bool isMaint = parts.Length > 2 && parts[2] == "MAINTENANCE";
+                return (true, isMaint);
+            }
+            return (false, false);
+        }
     }
 }

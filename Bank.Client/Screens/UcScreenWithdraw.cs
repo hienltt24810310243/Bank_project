@@ -87,8 +87,8 @@ namespace Bank.Client.Screens
                 return;
             }
 
-            // Gửi lệnh Socket TCP rút tiền lên Server để cập nhật SQL Server
-            string response = AtmClientSocket.SendCommand($"WITHDRAW|{AtmSession.CurrentCard}|{AtmSession.SelectedWithdrawAmount}");
+            // Gửi lệnh Socket TCP rút tiền lên Server kèm mã trạm ATM để cập nhật SQL Server
+            string response = AtmClientSocket.SendCommand($"WITHDRAW|{AtmSession.CurrentCard}|{AtmSession.SelectedWithdrawAmount}|{AtmSession.CurrentAtmId}");
             string[] parts = response.Split('|');
 
             if (parts[0] == "WITHDRAW_SUCCESS")

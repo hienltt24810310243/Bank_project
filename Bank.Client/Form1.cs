@@ -15,9 +15,91 @@ namespace Bank.Client
             InitializeComponent();
             Instance = this;
             InitializeKeypadEvents();
+            InitializeAtmSelector();
+            InitializeHeartbeat();
 
             // Khởi động vào màn hình Đăng nhập đầu tiên
             ShowScreen(new UcScreenLogin());
+        }
+
+        private void InitializeAtmSelector()
+        {
+            cboAtmTerminal.SelectedIndex = 0;
+            AtmSession.CurrentAtmId = "ATM01";
+            AtmSession.CurrentAtmName = "ATM ĐH Điện Lực (EPU)";
+
+            cboAtmTerminal.SelectedIndexChanged += (s, e) =>
+            {
+                string selected = cboAtmTerminal.SelectedItem?.ToString() ?? "ATM01";
+                if (selected.StartsWith("ATM01"))
+                {
+                    AtmSession.CurrentAtmId = "ATM01";
+                    AtmSession.CurrentAtmName = "ATM ĐH Điện Lực (EPU)";
+                    AtmSession.CurrentAtmLocation = "235 Hoàng Quốc Việt, Cầu Giấy, Hà Nội";
+                }
+                else if (selected.StartsWith("ATM02"))
+                {
+                    AtmSession.CurrentAtmId = "ATM02";
+                    AtmSession.CurrentAtmName = "ATM Chi nhánh Đống Đa";
+                    AtmSession.CurrentAtmLocation = "100 Tây Sơn, Đống Đa, Hà Nội";
+                }
+                else
+                {
+                    AtmSession.CurrentAtmId = "ATM03";
+                    AtmSession.CurrentAtmName = "ATM Chi nhánh Hà Đông";
+                    AtmSession.CurrentAtmLocation = "10 Trần Phú, Hà Đông, Hà Nội";
+                }
+
+                // Gửi thông báo đăng ký trạm tới Server ngay khi đổi máy
+                Task.Run(() => AtmClientSocket.RegisterAtm(AtmSession.CurrentAtmId, AtmSession.CurrentAtmName));
+            };
+        }
+
+        private System.Windows.Forms.Timer? _heartbeatTimer;
+
+        private void InitializeHeartbeat()
+        {
+            // Đăng ký lần đầu khi bật ứng dụng
+            Task.Run(() => AtmClientSocket.RegisterAtm(AtmSession.CurrentAtmId, AtmSession.CurrentAtmName));
+
+            // Timer gửi nhịp tim mỗi 4 giây
+            _heartbeatTimer = new System.Windows.Forms.Timer { Interval = 4000 };
+            _heartbeatTimer.Tick += async (s, e) =>
+            {
+                await Task.Run(() =>
+                {
+                    var (connected, isMaintenance) = AtmClientSocket.SendHeartbeat(AtmSession.CurrentAtmId);
+                    if (this.IsHandleCreated && !this.IsDisposed)
+                    {
+                        this.BeginInvoke(new Action(() =>
+                        {
+                            if (connected)
+                            {
+                                AtmSession.IsMaintenance = isMaintenance;
+                                if (isMaintenance)
+                                {
+                                    lblStatusBadge.Text = "STATUS: BẢO TRÌ";
+                                    lblStatusBadge.BackColor = Color.FromArgb(120, 53, 15);
+                                    lblStatusBadge.ForeColor = Color.FromArgb(251, 191, 36);
+                                }
+                                else
+                                {
+                                    lblStatusBadge.Text = "STATUS: CONNECTED";
+                                    lblStatusBadge.BackColor = Color.FromArgb(6, 78, 59);
+                                    lblStatusBadge.ForeColor = Color.FromArgb(52, 211, 153);
+                                }
+                            }
+                            else
+                            {
+                                lblStatusBadge.Text = "DISCONNECTED (Retry...)";
+                                lblStatusBadge.BackColor = Color.FromArgb(127, 29, 29);
+                                lblStatusBadge.ForeColor = Color.FromArgb(248, 113, 113);
+                            }
+                        }));
+                    }
+                });
+            };
+            _heartbeatTimer.Start();
         }
 
         // ====================================================================

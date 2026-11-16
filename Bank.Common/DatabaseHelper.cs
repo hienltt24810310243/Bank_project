@@ -386,11 +386,11 @@ namespace Bank.Common
                     {
                         try
                         {
-                            // 1. Tìm tài khoản gắn với thẻ
+                            // 1. Tìm tài khoản gắn với thẻ (Khóa dòng chống Race Condition)
                             string queryFind = @"
                                 SELECT t.SoTaiKhoan, tk.SoDu, tk.TrangThai 
-                                FROM TheATM t
-                                JOIN TaiKhoan tk ON t.SoTaiKhoan = tk.SoTaiKhoan
+                                FROM TheATM t WITH (UPDLOCK, ROWLOCK)
+                                JOIN TaiKhoan tk WITH (UPDLOCK, ROWLOCK) ON t.SoTaiKhoan = tk.SoTaiKhoan
                                 WHERE t.SoThe = @soThe";
 
                             string soTK = "";
@@ -529,6 +529,97 @@ namespace Bank.Common
             catch (Exception ex)
             {
                 return (false, "Lỗi kết nối cơ sở dữ liệu: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Lấy danh sách toàn bộ các cây ATM từ bảng MayATM để phục vụ màn hình giám sát trung tâm
+        /// </summary>
+        public static List<AtmTerminalDTO> LayDanhSachMayATM()
+        {
+            var list = new List<AtmTerminalDTO>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT MaATM, TenTram, ViTri, TongTienMat, TrangThai FROM MayATM ORDER BY MaATM";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader r = cmd.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            list.Add(new AtmTerminalDTO
+                            {
+                                MaATM = r["MaATM"].ToString() ?? "",
+                                TenTram = r["TenTram"].ToString() ?? "",
+                                ViTri = r["ViTri"].ToString() ?? "",
+                                TongTienMat = Convert.ToDecimal(r["TongTienMat"]),
+                                TrangThai = r["TrangThai"].ToString() ?? "Offline"
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi truy vấn danh sách MayATM: " + ex.Message);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Cập nhật trạng thái hoạt động của cây ATM trong CSDL (Online, Mất kết nối, Bảo trì)
+        /// </summary>
+        public static bool CapNhatTrangThaiMayATM(string maAtm, string trangThai)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
+                    string query = "UPDATE MayATM SET TrangThai = @trangThai WHERE MaATM = @maAtm";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@trangThai", trangThai);
+                        cmd.Parameters.AddWithValue("@maAtm", maAtm);
+                        return cmd.ExecuteNonQuery() > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi cập nhật trạng thái ATM {maAtm}: " + ex.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Trừ tiền mặt vật lý trong cây ATM khi khách hàng rút tiền
+        /// </summary>
+        public static bool CapNhatTienMatMayATM(string maAtm, decimal soTienTru)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                        UPDATE MayATM 
+                        SET TongTienMat = CASE WHEN TongTienMat >= @soTienTru THEN TongTienMat - @soTienTru ELSE TongTienMat END 
+                        WHERE MaATM = @maAtm";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@soTienTru", soTienTru);
+                        cmd.Parameters.AddWithValue("@maAtm", maAtm);
+                        return cmd.ExecuteNonQuery() > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi cập nhật quỹ tiền mặt ATM {maAtm}: " + ex.Message);
+                return false;
             }
         }
     }
