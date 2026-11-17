@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+	<ApplicationHighDpiMode>DpiUnaware</ApplicationHighDpiMode>
+	  <!---Khóa màn hình cho hiển thị trên mọi máy là như nhau-->
   </PropertyGroup>
 
   <ItemGroup>
