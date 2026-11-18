@@ -27,13 +27,13 @@
 
 ---
 
-## 👥 2. THÀNH VIÊN NHÓM THỰC HIỆN
+## 👥 2. PHÂN CÔNG NHIỆM VỤ THÀNH VIÊN (TASK ASSIGNMENT)
 
-| STT | Họ và Tên | Vai trò chính | Nhiệm vụ cụ thể |
+| STT | Thành viên | Vai trò | Giao diện & Nhiệm vụ phụ trách chính |
 | :---: | :--- | :---: | :--- |
-| **1** | **Lê Thị Thúy Hiền** *(Nhóm trưởng)* | **Team Leader & Database Architect** | • Thiết kế CSDL chuẩn 3NF (`BankATM_DB`), bảng `MayATM`, `TaiKhoan`, `TheATM`, `GiaoDich`<br>• Lập trình nghiệp vụ tầng CSDL `DatabaseHelper.cs`<br>• Thiết kế giao dịch ACID `SqlTransaction` & Khóa cấp độ dòng (`WITH (UPDLOCK, ROWLOCK)`)<br>• Quản trị dự án & Mã nguồn GitHub |
-| **2** | **Vũ Bình An** | **Frontend ATM Client Developer** | • Thiết kế giao diện ATM Kiosk vật lý (`Form1`), bàn phím số PinPad, khe cắm thẻ & khay tiền<br>• Lập trình module màn hình UserControl: Đăng nhập, Menu, Rút tiền, Chuyển khoản, Lịch sử, Đổi PIN<br>• Xây dựng module In biên lai sao kê nhiệt & Xuất hóa đơn Notepad (`FormReceipt`)<br>• Tối ưu hiển thị đa màn hình chuẩn `DpiUnaware` |
-| **3** | **Nguyễn Minh Đức** | **Backend Core Server Developer** | • Lập trình máy chủ trung tâm `Bank.Server` đa luồng (`Task.Run` / ThreadPool)<br>• Xây dựng bộ não quản lý mạng lưới trạm `AtmManager.cs`<br>• Hiện thực cơ chế Heartbeat 4s & Watchdog Timer 3s tự phục hồi kết nối<br>• Lập trình Giao diện Giám sát Trung tâm NOC Dashboard (`FormServerDashboard`) |
+| **1** | **Lê Thị Thúy Hiền**<br>*(Nhóm trưởng)* | **Leader & System Architect** | 1. **`FormServerDashboard`**: Trung tâm giám sát mạng lưới ATM NOC<br>2. **`Form1`**: Vỏ máy ATM Kiosk (PinPad + Khe thẻ + Khay tiền)<br>3. **`UcScreenLogin`**: Màn hình Đăng nhập Thẻ & PIN<br>• Thiết kế kiến trúc hệ thống, CSDL `BankATM_DB` & Điều phối dự án |
+| **2** | **Nguyễn Minh Đức** | **Core Transaction Developer** | 1. **`UcScreenMenu`**: Màn hình Menu tính năng chính & Số dư<br>2. **`UcScreenWithdraw`**: Màn hình Rút tiền mặt<br>3. **`UcScreenTransfer`**: Màn hình Chuyển khoản<br>• Kết nối Socket TCP, xử lý luồng giao dịch & Kiểm thử mạng đa máy |
+| **3** | **Vũ Bình An** | **Client & Reporting Developer** | 1. **`UcScreenHistory`**: Màn hình Truy vấn Lịch sử giao dịch<br>2. **`UcScreenChangePin`**: Màn hình Đổi mã PIN thẻ<br>3. **`FormReceipt`**: Màn hình In & Xuất biên lai in nhiệt<br>• Thiết kế định dạng sao kê nhiệt, xuất file Notepad & Hoàn thiện UI/UX |
 
 ---
 
@@ -115,9 +115,9 @@ flowchart TD
 
 ## 💻 5. CÁC PHÂN HỆ VÀ GIAO DIỆN HỆ THỐNG
 
-Dự án bao gồm tổng cộng **9 giao diện chính thức** và **3 hộp thoại chức năng (Modal Popups)**:
+Dự án bao gồm tổng cộng **9 giao diện chính thức** và **3 hộp thoại chức năng (Modal Popups)**, được phân chia cụ thể theo từng thành viên:
 
-### I. Phía Máy chủ Giám sát Trung tâm (`Bank.Server`)
+### 👑 Phân hệ do Bạn Hiền phụ trách:
 1. **`FormServerDashboard` (Trung tâm Giám sát Mạng lưới ATM NOC):**
    * 4 thẻ KPI thống kê số lượng trạm: Tổng trạm, Đang hoạt động (Online), Mất kết nối (Offline), Đang bảo trì.
    * Bảng giám sát chi tiết từng cây ATM: Mã ATM, Tên trạm, Vị trí, Địa chỉ IP:Port, Nhịp tim theo giây (`Vừa xong...`, `4s trước`), Quỹ tiền mặt trong khay máy, Tổng số lệnh giao dịch đã phục vụ.
@@ -126,16 +126,18 @@ Dự án bao gồm tổng cộng **9 giao diện chính thức** và **3 hộp t
      * *Đặt chế độ Bảo trì*: Chọn cây ATM cần khóa bảo dưỡng kỹ thuật.
      * *Kích hoạt Hoạt động (Online)*: Mở lại cây ATM phục vụ khách hàng.
      * *Nạp quỹ tiền mặt*: Chọn cây ATM và mệnh giá nạp vào khay máy (+20M, +50M, +100M, +200M).
+2. **`Form1` (Vỏ máy ATM Kiosk vật lý):** Thanh định danh trạm (`ATM01`, `ATM02`, `ATM03`), cấu hình Server IP/Port, huy hiệu trạng thái kết nối nhịp tim, bàn phím số phần cứng (**PinPad** 0-9, CLEAR, ENTER), khe cắm thẻ (**Card Slot**), khe nhả tiền (**Cash Tray**).
+3. **`UcScreenLogin` (Màn hình Đăng nhập Thẻ & PIN):** Nhập số thẻ, mã PIN 6 số với nút mắt ẩn/hiện mật khẩu, tự động khóa thẻ sau 3 lần sai và từ chối khi trạm đang bảo trì.
 
-### II. Phía Máy trạm Cây ATM Kiosk (`Bank.Client`)
-2. **`Form1` (Khung vỏ Kiosk ATM vật lý):** Thanh định danh trạm (`ATM01`, `ATM02`, `ATM03`), cấu hình Server IP/Port, huy hiệu trạng thái kết nối nhịp tim, bàn phím số phần cứng (**PinPad** 0-9, CLEAR, ENTER), khe cắm thẻ (**Card Slot**), khe nhả tiền (**Cash Tray**).
-3. **`UcScreenLogin` (Màn hình Đăng nhập):** Nhập số thẻ, mã PIN 6 số với nút mắt ẩn/hiện mật khẩu, tự động khóa thẻ sau 3 lần sai.
-4. **`UcScreenMenu` (Màn hình Menu chính):** Hiển thị lời chào chủ thẻ, số dư tài khoản khả dụng và các nút điều hướng nghiệp vụ.
+### 💼 Phân hệ do Bạn Đức phụ trách:
+4. **`UcScreenMenu` (Màn hình Menu tính năng chính & Số dư):** Hiển thị lời chào chủ thẻ, số dư tài khoản khả dụng và các nút điều hướng nghiệp vụ.
 5. **`UcScreenWithdraw` (Màn hình Rút tiền mặt):** 6 nút chọn mệnh giá nhanh (100k, 200k, 500k, 1M, 2M, 5M) hoặc ô nhập tiền lẻ tùy chọn; đồng thời trừ tiền tài khoản và trừ quỹ tiền mặt vật lý tại cây ATM.
-6. **`UcScreenTransfer` (Màn hình Chuyển khoản 24/7):** Nhập số tài khoản nhận, tự động tra cứu hiển thị tên người nhận, nhập số tiền và nội dung chuyển tiền.
-7. **`UcScreenHistory` (Màn hình Lịch sử Giao dịch):** Bảng hiển thị 5 giao dịch biến động số dư gần nhất kèm thời gian và loại giao dịch.
-8. **`UcScreenChangePin` (Màn hình Đổi mã PIN):** Xác thực mã PIN cũ, nhập mã PIN mới và xác nhận lại mã PIN mới.
-9. **`FormReceipt` (Cửa sổ Biên lai In nhiệt):** Mô phỏng giấy in nhiệt máy ATM ngoài đời thực với thông tin số hóa đơn, ngày giờ, số thẻ che bảo mật, mã vạch Barcode và nút **In ra file Text Notepad**.
+6. **`UcScreenTransfer` (Màn hình Chuyển khoản):** Nhập số tài khoản nhận, tự động tra cứu hiển thị tên người nhận, nhập số tiền và nội dung chuyển tiền 24/7.
+
+### 🎨 Phân hệ do Bạn An phụ trách:
+7. **`UcScreenHistory` (Màn hình Truy vấn Lịch sử giao dịch):** Bảng hiển thị 5 giao dịch biến động số dư gần nhất kèm thời gian và loại giao dịch (nhận tiền, rút tiền, chuyển tiền).
+8. **`UcScreenChangePin` (Màn hình Đổi mã PIN thẻ):** Xác thực mã PIN cũ, nhập mã PIN mới và xác nhận lại mã PIN mới.
+9. **`FormReceipt` (Màn hình In & Xuất biên lai in nhiệt):** Mô phỏng giấy in nhiệt máy ATM ngoài đời thực với thông tin số hóa đơn, ngày giờ, số thẻ che bảo mật, mã vạch Barcode và nút **In ra file Text Notepad**.
 
 ---
 
